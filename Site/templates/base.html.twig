@@ -11,13 +11,6 @@
             <a class="navbar-brand" href="{{ path('home') }}">SymBlog</a>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('blog') }}">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
-                    </li>
-
 
                     {% if not app.user %}
                         <li class="nav-item">
@@ -32,6 +25,12 @@
                         </a>
                     </li>
                     {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('blog_create', {'id': app.user.id }) }}">Créer un article</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('blog_user', {'id': app.user.id}) }}">Mes Articles</a>
+                        </li>
                     <li class="nav-item">
                         <a href="{{ path('security_logout') }}" class="nav-link">
                             Déconnexion
@@ -47,9 +46,32 @@
                 </ul>
             </div>
         </nav>
+        <br>
+        {% block filter%}
+            <div class="container">
+                <form action="/recherche/" method="get">
+                    <fieldset>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <select id="Categorie" name="Categorie" class="custom-select bg-primary text-light">
+                                    <option selected="selected" value="0">Catégorie</option>
+                                    <option value="1">Politique</option>
+                                    <option value="2">Economie</option>
+                                    <option value="3">Education</option>
+                                </select>
+                            </div>
+                            <input id="Saisie" name="Saisie" type="text" class="form-control" aria-label="Saisie de mots clés" placeholder="Mot(s) clé(s)" required="required">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Recherche</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        {% endblock %}
+
         <div class="container">
             {% block body %}{% endblock %}
         </div>
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Articles !{% endblock %}
+
+{% block filter %}
+{% endblock %}
+
+{% block body %}
+
+    <section class="articles">
+        {% for article in articles %}
+            <article>
+                <h2>{{ article.title }}</h2>
+                <div class="metadata">Ecrit le {{ article.createdAT | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}</div>
+                <div class="content"><img src="{{ article.image }}" alt=""></div>
+                <br>
+                <div class="content">{{ article.content | raw }}</div>
+                <br>
+                <a href="{{ path('blog_edit', {'id': article.id}) }}" class="btn btn-success">Modifier</a>
+                <hr>
+            </article>
+            <br>
+        {% endfor %}
+    </section>
+
+{% endblock %}
