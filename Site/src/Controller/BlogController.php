@@ -22,6 +22,9 @@ use App\Entity\Category;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Form\CategoryType;
+use App\Form\SearchType;
+
+use App\Data\SearchData;
 
 class BlogController extends AbstractController
 {
@@ -29,15 +32,20 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home(ArticleRepository $repoArticle, CategoryRepository $repoCategory)
+    public function home(ArticleRepository $repoArticle, Request $request)
     {
-        $articles = $repoArticle->findAll();
-        $category = $repoCategory->findAll()
+        $data = new SearchData();
+
+        $form = $this->createForm(SearchType::class, $data);
+
+        $form->handleRequest($request);
+
+        $articles = $repoArticle->findSearch($data);
 ;
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'BlogController',
             'articles' => $articles,
-            'category' => $category
+            'formSearch' => $form->createView()
         ]);
     }
 
