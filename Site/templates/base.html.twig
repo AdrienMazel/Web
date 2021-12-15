@@ -12,7 +12,13 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
 
+                    <li class="nav-item">
+                        <a href="{{ path('blog_category') }}" class="nav-link">
+                            Sa Catégorie
+                        </a>
+
                     {% if not app.user %}
+                        </li>
                         <li class="nav-item">
                             <a href="{{ path('security_registration') }}" class="nav-link">
                                 Inscription
@@ -48,26 +54,6 @@
         </nav>
         <br>
         {% block filter%}
-            <div class="container">
-                <form action="/recherche/" method="get">
-                    <fieldset>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <select id="Categorie" name="Categorie" class="custom-select bg-primary text-light">
-                                    <option selected="selected" value="0">Catégorie</option>
-                                    <option value="1">Politique</option>
-                                    <option value="2">Economie</option>
-                                    <option value="3">Education</option>
-                                </select>
-                            </div>
-                            <input id="Saisie" name="Saisie" type="text" class="form-control" aria-label="Saisie de mots clés" placeholder="Mot(s) clé(s)" required="required">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Recherche</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
         {% endblock %}
 
         <div class="container">
