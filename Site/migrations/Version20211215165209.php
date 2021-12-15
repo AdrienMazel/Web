@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211215112939 extends AbstractMigration
+final class Version20211215165209 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,12 @@ final class Version20211215112939 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE article ADD user_id_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E669D86650F FOREIGN KEY (user_id_id) REFERENCES user (id)');
-        $this->addSql('CREATE INDEX IDX_23A0E669D86650F ON article (user_id_id)');
+        $this->addSql('CREATE TABLE book (id INT AUTO_INCREMENT NOT NULL, tile VARCHAR(255) NOT NULL, descritpion VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E669D86650F');
-        $this->addSql('DROP INDEX IDX_23A0E669D86650F ON article');
-        $this->addSql('ALTER TABLE article DROP user_id_id');
+        $this->addSql('DROP TABLE book');
     }
 }
