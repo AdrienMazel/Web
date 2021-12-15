@@ -11,12 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
+
+use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\User;
+use App\Entity\Category;
+
 use App\Form\ArticleType;
 use App\Form\CommentType;
-use App\Entity\User;
+use App\Form\CategoryType;
 
 class BlogController extends AbstractController
 {
@@ -24,13 +29,15 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home(ArticleRepository $repo)
+    public function home(ArticleRepository $repoArticle, CategoryRepository $repoCategory)
     {
-        $articles = $repo->findAll();
-
+        $articles = $repoArticle->findAll();
+        $category = $repoCategory->findAll()
+;
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'BlogController',
-            'articles' => $articles
+            'articles' => $articles,
+            'category' => $category
         ]);
     }
 
@@ -46,6 +53,32 @@ class BlogController extends AbstractController
 
         return $this->render('blog/blog.html.twig', [
             'articles' => $articles
+        ]);
+    }
+
+    /**
+     * @Route("/blog/category", name="blog_category")
+     */
+    public function createCategory(Category $category = null, Request $request, ObjectManager $manager)
+    {
+        if(!$category) {
+            $category = new Category();
+        }
+
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($category);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_category');
+        }
+
+        return $this->render('blog/category.html.twig', [
+            'formCategory' => $form->createView()
         ]);
     }
 
