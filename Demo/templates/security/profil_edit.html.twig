@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <br>
+
+    <h1>Profil de {{ app.user.username }}</h1>
+
+    {{ form_start(formProfil) }}
+
+    {{ form_row(formProfil.username, {'label': 'Nom d\'utilisateur'})  }}
+    {{ form_row(formProfil.email, {'label': 'Adresse email'}) }}
+    <br>
+    <button type="submit" class="btn-success">
+        Enregistrer
+    </button>
+
+    {{ form_start(formProfil) }}
+
+{% endblock %}
