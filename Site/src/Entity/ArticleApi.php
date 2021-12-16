@@ -5,11 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleApiRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleApiRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['collection']]
+
+
+
+)]
 class ArticleApi
 {
     /**
@@ -17,16 +23,19 @@ class ArticleApi
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['collection'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['collection'])]
     private $title;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['collection'])]
     private $slug;
 
     /**

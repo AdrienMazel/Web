@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -18,21 +19,25 @@ class Book
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['collection'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $tile;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $descritpion;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['collection'])]
     private $author;
 
     /**
