@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes Articles !{% endblock %}
-
 {% block filter %}
 {% endblock %}
 
@@ -17,6 +15,7 @@
                 <div class="content">{{ article.content | raw }}</div>
                 <br>
                 <a href="{{ path('blog_edit', {'id': article.id}) }}" class="btn btn-success">Modifier</a>
+                <a href="{{ path('blog_delete', {'user': app.user.id, 'id': article.id}) }}" class="btn btn-primary">Supprimer</a>
                 <hr>
             </article>
             <br>

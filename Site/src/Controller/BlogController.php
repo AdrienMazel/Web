@@ -50,6 +50,31 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/blog/edit/{id}", name="blog_edit")
+     */
+    public function formEdit(Article $article = null, Request $request, ObjectManager $manager)
+    {
+
+        $form = $this->createForm(ArticleType::class, $article);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $article->setCreatedAt(new \DateTime);
+
+            $manager->persist($article);
+            $manager->flush();
+
+        }
+
+        return $this->render('blog/edit.html.twig', [
+            'formArticle' => $form->createView(),
+            'article' => $article->getId()
+        ]);
+    }
+
+    /**
      * @Route("/blog/user/{id}", name="blog_user")
      */
     public function blogUser(ArticleRepository $repo, User $user)
@@ -149,39 +174,19 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/blog/edit/{id}", name="blog_edit")
+     * @Route("/blog/user/{user}/delete/{id}", name="blog_delete")
      */
-    public function formEdit(Article $article = null, Request $request, ObjectManager $manager)
+    public function delete(Article $article, ObjectManager $manager, ArticleRepository $repo, User $user)
     {
+        $manager->remove($article);
+        $manager->flush();
 
-        $form = $this->createForm(ArticleType::class, $article);
+        $articles = $repo->findBy(
+            ['user_id' => $user->getId()]
+        );
 
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $article->setCreatedAt(new \DateTime);
-
-            $manager->persist($article);
-            $manager->flush();
-
-        }
-
-        return $this->render('blog/edit.html.twig', [
-            'formArticle' => $form->createView(),
-            'article' => $article->getId()
+        return $this->render('blog/blog.html.twig', [
+            'articles' => $articles
         ]);
     }
-
-    /**
-     * @Route("/blog/edit/{id}/delete", name="blog_delete")
-     */
-    public function delete(Article $article)
-    {
-
-        return $this->render('', [
-            'article' => $article->getId()
-        ]);
-    }
-
 }
