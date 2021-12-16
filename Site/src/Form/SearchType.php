@@ -22,7 +22,7 @@ class SearchType extends AbstractType
                     'placeholder' => 'Rechercher'
                 ]
             ])
-            ->add('categories', EntityType::class, [
+            ->add('category', EntityType::class, [
                 'label' => false,
                 'required' => false,
                 'class' => Category::class,

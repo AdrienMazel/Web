@@ -7,8 +7,6 @@
 
 {% block body %}
 
-    {% if app.user %}
-
         <h1>Modifier cette article !</h1>
 
         {{ form_start(formArticle) }}
@@ -19,19 +17,9 @@
         {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }}
         <div>
             <button type="submit" class="btn btn-success">Enregistrer</button>
+                <a href="{{ path('blog_delete', {'id': app.user.id}) }}" class="btn btn-primary">Supprimer</a>
         </div>
 
         {{ form_end(formArticle) }}
-
-    {% else %}
-
-        <br>
-        <h5>Vous ne pouvez pas publier d'article si vous n'êtes pas connecté !</h5>
-        <br>
-        <a href="{{ path('security_login') }}" class="btn btn-success">
-            Connexion
-        </a>
-
-    {% endif %}
 
 {% endblock %}

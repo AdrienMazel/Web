@@ -28,7 +28,23 @@ class ArticleRepository extends ServiceEntityRepository
     {
         $query = $this
             ->createQueryBuilder('p')
-            ->join('p.categories', 'c');
-        return $query->getQuery()->
+            ->select('c', 'p')
+            ->join('p.category', 'c');
+
+        if(!empty($search->q))
+        {
+            $query = $query
+                ->andWhere('p.title LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if(!empty($search->category))
+        {
+            $query = $query
+                ->andWhere('c.id IN (:category)')
+                ->setParameter('category', $search->category);
+
+        }
+        return $query->getQuery()->getResult();
     }
 }
