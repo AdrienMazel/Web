@@ -11,10 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ArticleApiRepository::class)
  */
 #[ApiResource(
-    normalizationContext: ['groups' => ['collection']]
-
-
-
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
 )]
 class ArticleApi
 {
@@ -23,24 +21,25 @@ class ArticleApi
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['collection'])]
+    #[Groups(['read'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['collection'])]
+    #[Groups(['read'])]
     private $title;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['collection'])]
+    #[Groups(['read'])]
     private $slug;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['read'])]
     private $content;
 
     public function getId(): ?int

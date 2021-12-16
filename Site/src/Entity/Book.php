@@ -19,7 +19,6 @@ class Book
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['collection'])]
     private $id;
 
     /**

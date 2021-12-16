@@ -7,13 +7,9 @@ use App\Repository\ApitestRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(
- *     normalizationContext={"groups"={"book:read"}},
- *     denormalizationContext={"groups"={"book:write"}}
- *     )
  * @ORM\Entity(repositoryClass=ApitestRepository::class)
  */
-#[ApiResource()]
+#[ApiResource]
 class Apitest
 {
     /**
