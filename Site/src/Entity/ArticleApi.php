@@ -47,6 +47,13 @@ class ArticleApi
      */
     private $auteur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Auteurlistapi::class, inversedBy="Articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    #[Groups('read')]
+    private $auteurs;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,6 +103,18 @@ class ArticleApi
     public function setAuteur(string $auteur): self
     {
         $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function getAuteurs(): ?Auteurlistapi
+    {
+        return $this->auteurs;
+    }
+
+    public function setAuteurs(?Auteurlistapi $auteurs): self
+    {
+        $this->auteurs = $auteurs;
 
         return $this;
     }
