@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="L'email que vous avez indiqué est déjà utilisé !"
  * )
  */
+#[ApiResource]
 class User implements UserInterface
 {
     /**
@@ -30,27 +33,32 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\Email()
      */
+    #[Groups(["read","write"])]
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(["read","write"])]
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire minimum 8 caractères !")
      */
+    #[Groups(["read","write"])]
     private $password;
 
     /**
      * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas le même mot de passe")
      */
+    #[Groups(["read","write"])]
     public $confirm_password;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user_id")
      */
+
     private $articles;
 
     public function __construct()

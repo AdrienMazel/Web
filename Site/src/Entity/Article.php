@@ -2,15 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
+#[ApiResource(
+    normalizationContext: ['groups'=>['read']],
+    denormalizationContext: ['groups' =>['write']]
+)]
 class Article
 {
     /**
@@ -24,39 +30,46 @@ class Article
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=10, max=255, minMessage="Votre titre est trop court !")
      */
+    #[Groups(["read","write"])]
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=10, minMessage="Votre contenu est trop court !")
      */
+    #[Groups(["read","write"])]
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      */
+    #[Groups(["read","write"])]
     private $image;
 
     /**
      * @ORM\Column(type="datetime")
      */
+    #[Groups(["read"])]
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(["read"])]
     private $category;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="article", orphanRemoval=true)
      */
+    #[Groups(["read"])]
     private $comments;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      */
+    #[Groups(["read"])]
     private $user_id;
 
     public function getId(): ?int

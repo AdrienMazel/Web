@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
+#[ApiResource]
 class Category
 {
     /**
@@ -22,16 +25,19 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(["read","write"])]
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Groups(["read","write"])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
+
     private $articles;
 
     public function __construct()
